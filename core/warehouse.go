@@ -2,6 +2,8 @@ package core
 
 import (
 	"database/sql"
+	"encoding/json"
+	"io"
 	"net/http"
 
 	"github.com/alphatechnolog/purplish-warehouses/database"
@@ -21,6 +23,44 @@ func getWarehouses(d *sql.DB, c *gin.Context) error {
 	return nil
 }
 
+func createWarehouse(d *sql.DB, c *gin.Context) error {
+	body_contents, err := io.ReadAll(c.Request.Body)
+	if err != nil {
+		return err
+	}
+
+	var create_payload database.CreateWarehousePayload
+	if err = json.Unmarshal(body_contents, &create_payload); err != nil {
+		return err
+	}
+
+	if err = database.CreateWarehouse(d, create_payload); err != nil {
+		return err
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"ok": true})
+
+	return nil
+}
+
+func removeWarehouse(d *sql.DB, c *gin.Context) error {
+	warehouseID := c.Param("ID")
+	if warehouseID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+		return nil
+	}
+
+	if err := database.RemoveWarehouse(d, warehouseID); err != nil {
+		return err
+	}
+
+	c.JSON(http.StatusOK, gin.H{"ok": true})
+
+	return nil
+}
+
 func CreateWarehousesRoutes(d *sql.DB, r *gin.RouterGroup) {
 	r.GET("/", WrapError(WithDB(d, getWarehouses)))
+	r.POST("/", WrapError(WithDB(d, createWarehouse)))
+	r.DELETE("/:ID", WrapError(WithDB(d, removeWarehouse)))
 }

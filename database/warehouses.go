@@ -1,11 +1,20 @@
 package database
 
-import "database/sql"
+import (
+	"database/sql"
+	"fmt"
+
+	"github.com/google/uuid"
+)
 
 type Warehouse struct {
 	ID     string `json:"id"`
 	Name   string `json:"name"`
 	Status bool   `json:"status"`
+}
+
+type CreateWarehousePayload struct {
+	Name string `json:"name"`
 }
 
 func GetWarehouses(d *sql.DB) ([]Warehouse, error) {
@@ -32,4 +41,31 @@ func GetWarehouses(d *sql.DB) ([]Warehouse, error) {
 	}
 
 	return warehouses, nil
+}
+
+func CreateWarehouse(d *sql.DB, createPayload CreateWarehousePayload) error {
+	sql := `
+		INSERT INTO warehouses (id, name, status)
+		VALUES
+			(?, ?, 1);
+	`
+
+	_, err := d.Exec(sql, uuid.New().String(), createPayload.Name)
+	if err != nil {
+		return fmt.Errorf("Unable to create warehouse: %w", err)
+	}
+
+	return nil
+}
+
+func RemoveWarehouse(d *sql.DB, warehouseID string) error {
+	sql := `
+		DELETE FROM warehouses WHERE id = ?;
+	`
+
+	if _, err := d.Exec(sql, warehouseID); err != nil {
+		return fmt.Errorf("Unable to remove warehouse by id '%s': %w", warehouseID, err)
+	}
+
+	return nil
 }
