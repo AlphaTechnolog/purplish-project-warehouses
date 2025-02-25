@@ -24,17 +24,17 @@ func getWarehouses(d *sql.DB, c *gin.Context) error {
 }
 
 func createWarehouse(d *sql.DB, c *gin.Context) error {
-	body_contents, err := io.ReadAll(c.Request.Body)
+	bodyContents, err := io.ReadAll(c.Request.Body)
 	if err != nil {
 		return err
 	}
 
-	var create_payload database.CreateWarehousePayload
-	if err = json.Unmarshal(body_contents, &create_payload); err != nil {
+	var createPayload database.CreateWarehousePayload
+	if err = json.Unmarshal(bodyContents, &createPayload); err != nil {
 		return err
 	}
 
-	if err = database.CreateWarehouse(d, create_payload); err != nil {
+	if err = database.CreateWarehouse(d, createPayload); err != nil {
 		return err
 	}
 
