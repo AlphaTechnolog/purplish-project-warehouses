@@ -22,9 +22,9 @@ func (wi *WarehouseInjector) Inject(routerGroup *gin.RouterGroup) {
 	warehouseUseCase := usecase.NewWarehouseUsecase(sqliteRepo)
 	warehouseHandler := http.NewWarehouseHandler(warehouseUseCase)
 
-	routerGroup.GET("", warehouseHandler.GetWarehouses)
-	routerGroup.GET("/:id", warehouseHandler.GetWarehouse)
-	routerGroup.POST("", warehouseHandler.CreateWarehouse)
-	routerGroup.PUT("/:id", warehouseHandler.UpdateWarehouse)
-	routerGroup.DELETE("/:id", warehouseHandler.DeleteWarehouse)
+	routerGroup.GET("", http.APIGatewayScopeCheck("r:warehouses"), warehouseHandler.GetWarehouses)
+	routerGroup.GET("/:id", http.APIGatewayScopeCheck("r:warehouses"), warehouseHandler.GetWarehouse)
+	routerGroup.POST("", http.APIGatewayScopeCheck("c:warehouses"), warehouseHandler.CreateWarehouse)
+	routerGroup.PUT("/:id", http.APIGatewayScopeCheck("u:warehouses"), warehouseHandler.UpdateWarehouse)
+	routerGroup.DELETE("/:id", http.APIGatewayScopeCheck("d:warehouses"), warehouseHandler.DeleteWarehouse)
 }

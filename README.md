@@ -20,5 +20,5 @@ Run the next commands on your system:
 ```
 ./.bin/run-migrations.sh
 go mod tidy
-PORT=8001 go run .
+PORT=8001 go run cmd/api/main.go
 ```
