@@ -1,10 +1,10 @@
-package repository
+package database
 
 import (
 	"database/sql"
 	"fmt"
 
-	"github.com/alphatechnolog/purplish-warehouses/internal/domain"
+	"github.com/alphatechnolog/purplish-warehouses/internal/repository"
 )
 
 type SQLiteRepository struct {
@@ -35,11 +35,11 @@ func (r *sqlResult) RowsAffected() (int64, error) {
 	return r.Result.RowsAffected()
 }
 
-func NewSQLiteRepository(db *sql.DB) domain.SQLDBRepository {
+func NewSQLiteRepository(db *sql.DB) repository.SQLDBRepository {
 	return &SQLiteRepository{db: db}
 }
 
-func (r *SQLiteRepository) Query(query string, args ...any) (domain.Rows, error) {
+func (r *SQLiteRepository) Query(query string, args ...any) (repository.Rows, error) {
 	rows, err := r.db.Query(query, args...)
 	if err != nil {
 		return nil, fmt.Errorf("sqliteRepository query error: %w", err)
@@ -47,12 +47,12 @@ func (r *SQLiteRepository) Query(query string, args ...any) (domain.Rows, error)
 	return &sqlRows{Rows: rows}, nil
 }
 
-func (r *SQLiteRepository) QueryRow(query string, args ...any) domain.Row {
+func (r *SQLiteRepository) QueryRow(query string, args ...any) repository.Row {
 	row := r.db.QueryRow(query, args...)
 	return &sqlRow{Row: row}
 }
 
-func (r *SQLiteRepository) Execute(query string, args ...any) (domain.Result, error) {
+func (r *SQLiteRepository) Execute(query string, args ...any) (repository.Result, error) {
 	result, err := r.db.Exec(query, args...)
 	if err != nil {
 		return nil, fmt.Errorf("sqliteRepository execute error: %w", err)

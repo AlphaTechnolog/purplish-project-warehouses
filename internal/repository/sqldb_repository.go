@@ -1,4 +1,4 @@
-package domain
+package repository
 
 // SQLDBRepository interface for executing arbitrary SQL queries on any SQL client.
 type SQLDBRepository interface {

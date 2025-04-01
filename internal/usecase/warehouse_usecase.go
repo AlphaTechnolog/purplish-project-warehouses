@@ -5,14 +5,15 @@ import (
 	"time"
 
 	"github.com/alphatechnolog/purplish-warehouses/internal/domain"
+	"github.com/alphatechnolog/purplish-warehouses/internal/repository"
 	"github.com/google/uuid"
 )
 
 type WarehouseUsecase struct {
-	sqldbRepo domain.SQLDBRepository
+	sqldbRepo repository.SQLDBRepository
 }
 
-func NewWarehouseUsecase(sqldbRepo domain.SQLDBRepository) *WarehouseUsecase {
+func NewWarehouseUsecase(sqldbRepo repository.SQLDBRepository) *WarehouseUsecase {
 	return &WarehouseUsecase{
 		sqldbRepo,
 	}

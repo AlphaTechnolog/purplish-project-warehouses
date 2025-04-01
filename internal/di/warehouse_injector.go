@@ -4,7 +4,7 @@ import (
 	"database/sql"
 
 	"github.com/alphatechnolog/purplish-warehouses/delivery/http"
-	"github.com/alphatechnolog/purplish-warehouses/internal/repository"
+	"github.com/alphatechnolog/purplish-warehouses/infrastructure/database"
 	"github.com/alphatechnolog/purplish-warehouses/internal/usecase"
 	"github.com/gin-gonic/gin"
 )
@@ -18,7 +18,7 @@ func NewWarehouseInjector(db *sql.DB) ModuleInjector {
 }
 
 func (wi *WarehouseInjector) Inject(routerGroup *gin.RouterGroup) {
-	sqliteRepo := repository.NewSQLiteRepository(wi.db)
+	sqliteRepo := database.NewSQLiteRepository(wi.db)
 	warehouseUseCase := usecase.NewWarehouseUsecase(sqliteRepo)
 	warehouseHandler := http.NewWarehouseHandler(warehouseUseCase)
 
