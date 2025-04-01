@@ -17,8 +17,9 @@ Make sure you have the next dependencies on the target system:
 
 Run the next commands on your system:
 
-```
+```sh
 ./.bin/run-migrations.sh
 go mod tidy
-PORT=8001 go run cmd/api/main.go
+cp -rvf ./.env{.example,}
+go run cmd/api/main.go
 ```
