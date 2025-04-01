@@ -13,7 +13,7 @@ type WarehouseInjector struct {
 	db *sql.DB
 }
 
-func NewWarehouseInjector(db *sql.DB) *WarehouseInjector {
+func NewWarehouseInjector(db *sql.DB) ModuleInjector {
 	return &WarehouseInjector{db: db}
 }
 

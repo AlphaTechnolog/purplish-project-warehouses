@@ -35,7 +35,7 @@ func (r *sqlResult) RowsAffected() (int64, error) {
 	return r.Result.RowsAffected()
 }
 
-func NewSQLiteRepository(db *sql.DB) *SQLiteRepository {
+func NewSQLiteRepository(db *sql.DB) domain.SQLDBRepository {
 	return &SQLiteRepository{db: db}
 }
 
