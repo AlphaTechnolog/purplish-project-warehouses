@@ -1,6 +1,6 @@
 package domain
 
-// / SQLDBRepository interface for executing arbitrary SQL queries on any SQL client.
+// SQLDBRepository interface for executing arbitrary SQL queries on any SQL client.
 type SQLDBRepository interface {
 	Query(query string, args ...any) (Rows, error)
 	QueryRow(query string, args ...any) Row
