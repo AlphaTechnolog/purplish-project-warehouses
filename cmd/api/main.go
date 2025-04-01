@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/alphatechnolog/purplish-warehouses/infrastructure/database"
 	"github.com/alphatechnolog/purplish-warehouses/internal/config"
 	"github.com/alphatechnolog/purplish-warehouses/internal/di"
 	"github.com/gin-gonic/gin"
@@ -19,7 +20,7 @@ func main() {
 		panic(err)
 	}
 
-	db := di.MustOpenDB("sqlite3", cfg.DatabaseURL)
+	db := database.MustOpenDB("sqlite3", cfg.DatabaseURL)
 	defer db.Close()
 
 	router := gin.Default()
