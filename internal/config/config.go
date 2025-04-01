@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/alphatechnolog/purplish-warehouses/pkg/helpers"
@@ -18,8 +17,6 @@ func LoadConfig(path string) (*Config, error) {
 	if err != nil {
 		log.Printf("Error loading env file: %v", err)
 	}
-
-	fmt.Println("loaded", path)
 
 	cfg := &Config{
 		DatabaseURL: helpers.GetEnv("DATABASE_URL", "database.db"),
